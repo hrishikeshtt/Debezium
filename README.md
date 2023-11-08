@@ -82,11 +82,13 @@ schema.history.internal.azure.storage.account.container.name=...
 schema.history.internal.azure.storage.blob.name=...
 
 7.	Please create the connector
-
+```
 $config = '{    \"name\": \"$(sqlconnectorname)\",     \"config\": {        \"connector.class\": \"io.debezium.connector.sqlserver.SqlServerConnector\",         \"database.hostname\": \"$(hostname)\",         \"database.port\": \"$(databaseport)\",         \"database.user\": \"$(user)\",         \"database.password\": \"$(password)\",         \"database.names\": \"$(dbname)\",         \"topic.prefix\": \"$(servername)\",         \"table.include.list\": \"$(tables)\",         \"schema.history.internal\":\"io.debezium.storage.azure.blob.history.AzureBlobSchemaHistory\",\"schema.history.internal.azure.storage.account.connectionstring\":\"$(schemahistoryazurestorageconnectionstring)\",\"schema.history.internal.azure.storage.account.container.name\":\"$(schemahistorycontainername)\",\"schema.history.internal.azure.storage.blob.name\":\"$(schemahistoryazurestorageblobname)\",\"transforms\": \"Reroute\",\"transforms.Reroute.type\": \"io.debezium.transforms.ByLogicalTableRouter\",\"transforms.Reroute.topic.regex\": \"(.*)([^0-9]).*\",\"transforms.Reroute.topic.replacement\": \"$(cdcmasterhub)\",\"retries\":\"2147483647\",\"errors.retry.timeout\":\"-1\",\"errors.retry.delay.max.ms\":\"300000\",\"errors.log.enable\":\"true\",\"errors.log.include.messages\":\"true\",\"errors.tolerance\":\"all\",\"database.sqlserver.agent.status.query\":\"SELECT    func_is_sql_server_agent_running()\",\"plugin.path\":\"/kafka/connect\",\"decimal.handling.mode\":\"double\",\"driver.encrypt\": \"true\",\"driver.trustServerCertificate\": \"true\",\"io.debezium.jdbc.JdbcConnection\":\"TRACE\",\"io.debezium.connector.sqlserver.SqlServerConnection\":\"TRACE\",\"snapshot.mode\": \"schema_only\",\"topic.creation.default.replication.factor\": \"$(TopicReplicationFactor)\",  \"topic.creation.default.partitions\": \"$(PartitionCount)\",\"topic.creation.default.cleanup.policy\": \"delete\"    }}'
 
 
 kubectl exec -n $(namespace) -i $(podname) -- bash -c "curl http://$(podip):8083/connectors -X POST -H 'Accept:application/json' -H 'Content-Type:application/json' -d '$config'"
+```
+
 
 Connector should be created in worker as well as schema history will be saved as blob in the specified path in Azure Blob Storage.
 
