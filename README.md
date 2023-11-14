@@ -53,8 +53,6 @@ Steps for creating debezium/connect image with Azure Blob Storage:
       39. woodstox-core-6.4.0.jar
       40. jackson-datatype-jsr310-2.13.4.jar
 
-https://github.com/hrishikeshtt/Debezium/tree/main/2.3/debezium-storage/debezium-storage-azure-blob 
-
 2.	Create a temporary container by uing debezium/connect image
 docker create --name temp_container debezium/connect:2.3.0.Final
 
