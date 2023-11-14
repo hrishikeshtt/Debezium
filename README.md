@@ -12,7 +12,7 @@ Resolution: As Azure event hub does not support creation of topics with infinite
 Steps for creating debezium/connect image with Azure Blob Storage:
 1.	Download the following jar files from Maven repository (https://mvnrepository.com/ ) individually or from https://github.com/hrishikeshtt/Debezium/tree/main/2.3/debezium-storage/debezium-storage-azure-blob 
 1. azure-core-1.36.0.jar
-azure-core-http-netty-1.13.0.jar
+2. azure-core-http-netty-1.13.0.jar
 azure-storage-blob-12.21.0.jar
 azure-storage-common-12.20.0.jar
 azure-storage-internal-avro-12.6.0.jar
