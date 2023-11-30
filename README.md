@@ -72,15 +72,18 @@ docker run -t -i  debeziumconnect-azureblobstorage:2.3 /bin/bash
 cd connect/debezium-connector-sqlserver
 ls -la
 which should list all the jars file which were added like below.
+
+![image](https://github.com/hrishikeshtt/Debezium/assets/23693702/6db0a5bb-a438-4183-a284-fff3103de4d0)
+
  
 
-6.	Add the following properties with the connector configuration
+7.	Add the following properties with the connector configuration
 schema.history.internal=io.debezium.storage.azure.blob.history.AzureBlobSchemaHistory
 schema.history.internal.azure.storage.account.connectionstring=...
 schema.history.internal.azure.storage.account.container.name=...
 schema.history.internal.azure.storage.blob.name=...
 
-7.	Please create the connector
+8.	Please create the connector
 ```
 $config = '{    \"name\": \"$(sqlconnectorname)\",     \"config\": {        \"connector.class\": \"io.debezium.connector.sqlserver.SqlServerConnector\",         \"database.hostname\": \"$(hostname)\",         \"database.port\": \"$(databaseport)\",         \"database.user\": \"$(user)\",         \"database.password\": \"$(password)\",         \"database.names\": \"$(dbname)\",         \"topic.prefix\": \"$(servername)\",         \"table.include.list\": \"$(tables)\",         \"schema.history.internal\":\"io.debezium.storage.azure.blob.history.AzureBlobSchemaHistory\",\"schema.history.internal.azure.storage.account.connectionstring\":\"$(schemahistoryazurestorageconnectionstring)\",\"schema.history.internal.azure.storage.account.container.name\":\"$(schemahistorycontainername)\",\"schema.history.internal.azure.storage.blob.name\":\"$(schemahistoryazurestorageblobname)\",\"transforms\": \"Reroute\",\"transforms.Reroute.type\": \"io.debezium.transforms.ByLogicalTableRouter\",\"transforms.Reroute.topic.regex\": \"(.*)([^0-9]).*\",\"transforms.Reroute.topic.replacement\": \"$(cdcmasterhub)\",\"retries\":\"2147483647\",\"errors.retry.timeout\":\"-1\",\"errors.retry.delay.max.ms\":\"300000\",\"errors.log.enable\":\"true\",\"errors.log.include.messages\":\"true\",\"errors.tolerance\":\"all\",\"database.sqlserver.agent.status.query\":\"SELECT    func_is_sql_server_agent_running()\",\"plugin.path\":\"/kafka/connect\",\"decimal.handling.mode\":\"double\",\"driver.encrypt\": \"true\",\"driver.trustServerCertificate\": \"true\",\"io.debezium.jdbc.JdbcConnection\":\"TRACE\",\"io.debezium.connector.sqlserver.SqlServerConnection\":\"TRACE\",\"snapshot.mode\": \"schema_only\",\"topic.creation.default.replication.factor\": \"$(TopicReplicationFactor)\",  \"topic.creation.default.partitions\": \"$(PartitionCount)\",\"topic.creation.default.cleanup.policy\": \"delete\"    }}'
 
